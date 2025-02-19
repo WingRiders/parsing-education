@@ -1,0 +1,63 @@
+cabal-version:   3.0
+name:            parsing-education
+version:         0.1.0.0
+license:
+author:          WingRiders
+maintainer:      WingRiders
+build-type:      Simple
+extra-doc-files: README.md
+
+common options
+  ghc-options: -Wall
+  default-language: Haskell2010
+
+library scripts
+  import:         options
+  hs-source-dirs: src
+  exposed-modules:
+    Request
+    Pool
+    Types
+    Util
+    Constants
+
+  build-depends:
+    , base
+    , plutus-core ^>=1.40.0.0
+    , plutus-ledger-api ^>=1.40.0.0
+    , plutus-tx ^>=1.40.0.0
+
+  if !(impl(ghcjs) || os(ghcjs))
+    build-depends: plutus-tx-plugin
+
+executable blueprints
+  import:           options
+  hs-source-dirs:   app
+  main-is:          Blueprints.hs
+  build-depends:
+    , base
+    , bytestring
+    , containers
+    , plutus-core ^>=1.40.0.0
+    , plutus-ledger-api ^>=1.40.0.0
+    , plutus-tx ^>=1.40.0.0
+    , plutus-tx-plugin ^>=1.40.0.0
+    , scripts
+
+test-suite tests
+  import: options
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  hs-source-dirs: test/
+  other-modules:
+  build-depends:
+    , base
+    , bytestring
+    , containers
+    , plutus-core ^>=1.40.0.0
+    , plutus-ledger-api ^>=1.40.0.0
+    , plutus-tx ^>=1.40.0.0
+    , plutus-tx-plugin ^>=1.40.0.0
+    , tasty
+    , tasty-hunit
+    , scripts
