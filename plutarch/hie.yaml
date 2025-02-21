@@ -1,0 +1,10 @@
+cradle:
+  cabal:
+    - component: "lib:contracts"
+      path: "./src/"
+    
+    - component: "test:tests"
+      path: "./test/"
+    
+    - component: "exe:blueprints"
+      path: "./app/Blueprints.hs"
