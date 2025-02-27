@@ -1,0 +1,16 @@
+{
+  "name": "mesh",
+  "dependencies": {
+    "@meshsdk/core": "^1.9.0-beta.19",
+    "@meshsdk/core-csl": "^1.9.0-beta.19",
+    "cbor": "^10.0.3"
+  },
+  "patchedDependencies": {
+    "@meshsdk/transaction@1.9.0-beta.19": "patches/@meshsdk%2Ftransaction@1.9.0-beta.18.patch",
+    "@meshsdk/core-cst@1.9.0-beta.19": "patches/@meshsdk%2Fcore-cst@1.9.0-beta.4.patch"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.js"
+  }
+}

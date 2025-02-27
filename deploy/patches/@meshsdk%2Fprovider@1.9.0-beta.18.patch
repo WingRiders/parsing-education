@@ -1,0 +1,15 @@
+diff --git a/node_modules/@meshsdk/provider/.bun-tag-5b69c68ecf1ae557 b/.bun-tag-5b69c68ecf1ae557
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/dist/index.js b/dist/index.js
+index e357f6fc29be7f31960f45650ead67a3534edd12..11a06d8851c9a2b2e010794f34f92c3d58886815 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -212,6 +212,7 @@ var BlockfrostProvider = class {
+         });
+         return result;
+       }
++      console.log("Error", data);
+       throw parseHttpError(data);
+     } catch (error) {
+       throw parseHttpError(error);

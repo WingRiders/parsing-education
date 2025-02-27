@@ -1,0 +1,79 @@
+diff --git a/dist/index.js b/dist/index.js
+index 1581bcd7a771a020d4bd0a5de2bf5c9072d92960..2f782d71aad680448877ea6a63d834b64e027843 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -6852,18 +6852,18 @@ var CardanoSDKSerializerCore = class {
+             outputAmount.quantity = minUtxoValue.toString();
+           }
+         }
+-        if (!lovelaceFound) {
+-          let currentAmount = {
+-            unit: "lovelace",
+-            quantity: "10000000"
+-          };
+-          currentOutput.amount.push(currentAmount);
+-          let dummyCardanoOutput = this.toCardanoOutput(
+-            currentOutput
+-          );
+-          let minUtxoValue = (160 + dummyCardanoOutput.toCbor().length / 2 + 1) * this.protocolParams.coinsPerUtxoSize;
+-          currentAmount.quantity = minUtxoValue.toString();
+-        }
++      }
++      if (!lovelaceFound) {
++        let currentAmount = {
++          unit: "lovelace",
++          quantity: "10000000"
++        };
++        currentOutput.amount.push(currentAmount);
++        let dummyCardanoOutput = this.toCardanoOutput(
++          currentOutput
++        );
++        let minUtxoValue = (160 + dummyCardanoOutput.toCbor().length / 2 + 1) * this.protocolParams.coinsPerUtxoSize;
++        currentAmount.quantity = minUtxoValue.toString();
+       }
+     }
+     return outputs;
+@@ -7622,12 +7622,16 @@ var CardanoSDKSerializerCore = class {
+     }
+     let referenceInputs = this.txBody.referenceInputs() ?? Serialization6.CborSet.fromCore([], TransactionInput.fromCore);
+     let referenceInputsList = [...referenceInputs.values()];
+-    referenceInputsList.push(
+-      new TransactionInput(
+-        TransactionId(scriptSource.txHash),
+-        BigInt(scriptSource.txIndex)
+-      )
++    // Create new input
++    const newInput = new TransactionInput(
++      TransactionId(scriptSource.txHash),
++      BigInt(scriptSource.txIndex)
+     );
++    if (referenceInputsList.some(input =>
++      input.transactionId() === newInput.transactionId() &&
++      input.index() === newInput.index()
++    )) return; // Do not insert duplicate inputs
++    referenceInputsList.push(newInput);
+     referenceInputs.setValues(referenceInputsList);
+     this.txBody.setReferenceInputs(referenceInputs);
+     switch (scriptSource.version) {
+@@ -7658,12 +7662,16 @@ var CardanoSDKSerializerCore = class {
+     }
+     let referenceInputs = this.txBody.referenceInputs() ?? Serialization6.CborSet.fromCore([], TransactionInput.fromCore);
+     let referenceInputsList = [...referenceInputs.values()];
+-    referenceInputsList.push(
+-      new TransactionInput(
+-        TransactionId(simpleScriptSource.txHash),
+-        BigInt(simpleScriptSource.txIndex)
+-      )
++    // Create new input
++    const newInput = new TransactionInput(
++      TransactionId(simpleScriptSource.txHash),
++      BigInt(simpleScriptSource.txIndex)
+     );
++    if (referenceInputsList.some(input =>
++      input.transactionId() === newInput.transactionId() &&
++      input.index() === newInput.index()
++    )) return; // Do not insert duplicate inputs
++    referenceInputsList.push(newInput);
+     if (simpleScriptSource.scriptSize) {
+       this.refScriptSize += Number(simpleScriptSource.scriptSize);
+     } else {

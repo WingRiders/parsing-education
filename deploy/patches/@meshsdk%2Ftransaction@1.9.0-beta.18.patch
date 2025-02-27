@@ -1,0 +1,13 @@
+diff --git a/dist/index.js b/dist/index.js
+index d3c98f74e94ad8d11238e883cb5c90c0072f7ad3..7629033bc1616826ffbec77415103c2a0ec3791e 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -2112,7 +2112,7 @@ var MeshTxBuilder = class extends MeshTxBuilderCore {
+         this.meshTxBuilderBody.chainedTxs
+       ).catch((error) => {
+         throw new Error(
+-          `Tx evaluation failed: ${JSON.stringify(error)} 
++          `Tx evaluation failed: ${error.message} 
+  For txHex: ${txHex}`
+         );
+       });
