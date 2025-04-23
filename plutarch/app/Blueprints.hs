@@ -13,6 +13,7 @@ module Main where
 
 import Data.ByteString.Short qualified as Short
 import Data.Set qualified as Set
+import Plutarch.Internal.Other (printScript, printTerm)
 import Plutarch.Internal.Term (Config (..), LogLevel (..), TracingMode (..), compile)
 import Plutarch.Prelude
 import Plutarch.Script
@@ -150,4 +151,9 @@ contractBlueprint =
         }
 
 main :: IO ()
-main = writeBlueprint "artifacts/plutus.json" contractBlueprint
+main = do
+    let poolUplc = printScript (c (poolValidator # pconstant poolConfig))
+        requestUplc = printTerm (Tracing LogInfo DoTracing) (requestValidator # pconstant requestConfig)
+    writeFile "artifacts/pool.uplc" poolUplc
+    writeFile "artifacts/request.uplc" requestUplc
+    writeBlueprint "artifacts/plutus.json" contractBlueprint

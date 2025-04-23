@@ -49,6 +49,9 @@ https://preprod.cardanoscan.io/transaction/07e90862c39548bc7bc973b18212ab2c10401
 An example transaction with 20 applied requests:
 https://preprod.cardanoscan.io/transaction/0d983bab4a302efc16fa28be3ce2f819627bc2dd2957d16e3298aba09b7ce87a
 
+An example transaction with 24 applied requests:
+https://preprod.cardanoscan.io/transaction/5ee02d0f6ccc350152530026276681ccca81a8e270596db2d41101c57c610373
+
 An example transaction with 30 applied requests:
 https://preprod.cardanoscan.io/transaction/86a5c6567b5c2f9f3e060c5aa9c843a3df98e482f48ab677141fb6b5d7da0e29
 

@@ -13,9 +13,11 @@ module Main where
 
 import qualified Data.ByteString.Short as Short
 import qualified Data.Set as Set
+import PlutusCore.Pretty (prettyPlc)
 import PlutusLedgerApi.Common (serialiseCompiledCode, toBuiltin)
 import PlutusLedgerApi.Data.V3 (DatumHash (..), ScriptHash (..))
 import qualified PlutusLedgerApi.V1.Value as Value
+import PlutusTx (getPlc)
 import PlutusTx.Blueprint
 import PlutusTx.Builtins.HasOpaque (stringToBuiltinByteStringHex)
 import Pool
@@ -159,4 +161,11 @@ contractBlueprint =
         }
 
 main :: IO ()
-main = writeBlueprint "artifacts/plutus.json" contractBlueprint
+main = do
+    let poolUplc = getPlc (poolValidatorScript poolConfig)
+        requestUplc = getPlc (requestValidatorScript requestConfig)
+        poolPretty = prettyPlc poolUplc
+        requestPretty = prettyPlc requestUplc
+    writeFile "artifacts/pool.uplc" $ show poolPretty
+    writeFile "artifacts/request.uplc" $ show requestPretty
+    writeBlueprint "artifacts/plutus.json" contractBlueprint

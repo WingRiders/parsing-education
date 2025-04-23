@@ -67,8 +67,9 @@ requestTypedValidator requestConfig datum redeemer context =
 requestUntypedValidator ::
     RequestConfig ->
     BuiltinData ->
+    BuiltinData ->
     BuiltinUnit
-requestUntypedValidator requestConfig ctx =
+requestUntypedValidator requestConfig _ ctx =
     check
         ( case unsafeFromBuiltinData ctx of
             context@(ScriptContext ~_txInfo (Redeemer redeemer) (SpendingScript ~_ (Just (Datum datum)))) ->
@@ -82,6 +83,6 @@ requestUntypedValidator requestConfig ctx =
 
 requestValidatorScript ::
     RequestConfig ->
-    CompiledCode (BuiltinData -> BuiltinUnit)
+    CompiledCode (BuiltinData -> BuiltinData -> BuiltinUnit)
 requestValidatorScript requestConfig =
     $$(compile [||requestUntypedValidator||]) `unsafeApplyCode` liftCodeDef requestConfig
